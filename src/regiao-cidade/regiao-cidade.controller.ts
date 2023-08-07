@@ -6,10 +6,15 @@ import {
   Delete,
   Body,
   Param,
+  UsePipes,
+  ValidationPipe,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { Regiao } from '../typeorm/regiao.entity';
 import { Cidade } from '../typeorm/cidade.entity';
 import { RegiaoCidadeService } from './regiao-cidade.service';
+import { createCidadeDTO } from './dtos/createCidade.dto';
 
 @Controller('regiao-cidade')
 export class RegiaoCidadeController {
@@ -59,9 +64,24 @@ export class RegiaoCidadeController {
   }
 
   @Post('cidades')
-  createCidade(@Body() cidade: Cidade): Promise<Cidade> {
-    return this.regiaoCidadeService.createCidade(cidade);
+  @HttpCode(HttpStatus.CREATED)
+  @UsePipes(ValidationPipe)
+  async createSessao(@Body() cidadeData: createCidadeDTO): Promise<Cidade> {
+    console.log(cidadeData);
+
+    return this.regiaoCidadeService.createCidade(
+      cidadeData as unknown as Cidade,
+    );
   }
+
+  // @Post('cidades')
+  // createCidade(@Body() cidade: Cidade) {
+  //   const createdCity = this.regiaoCidadeService.createCidade(cidade);
+  //   console.log('criou a cidade');
+  //   console.log(createdCity);
+
+  //   return cidade;
+  // }
 
   @Put('cidades/:cidadeId')
   updateCidade(

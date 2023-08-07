@@ -15,7 +15,7 @@ import { Regiao } from './regiao.entity';
 @Entity()
 export class Cidade {
   @PrimaryGeneratedColumn('uuid')
-  cidadeId: string;
+  cidadeId?: string;
 
   @Column()
   nome: string;
