@@ -67,8 +67,6 @@ export class RegiaoCidadeController {
   @HttpCode(HttpStatus.CREATED)
   @UsePipes(ValidationPipe)
   async createSessao(@Body() cidadeData: createCidadeDTO): Promise<Cidade> {
-    console.log(cidadeData);
-
     return this.regiaoCidadeService.createCidade(
       cidadeData as unknown as Cidade,
     );
